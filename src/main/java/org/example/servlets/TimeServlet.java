@@ -16,9 +16,16 @@ public class TimeServlet extends HttpServlet {
         resp.getWriter().write(parseTime(req));
         resp.getWriter().close();
     }
-    private String parseTime(HttpServletRequest request) {
+    private String parseTime(HttpServletRequest req) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
-        ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
+        ZonedDateTime zonedDateTime;
+
+        String timezoneParam = req.getParameter("timezone").replace(" ", "+");
+        if (req.getParameterMap().containsKey("timezone")) {
+            zonedDateTime = ZonedDateTime.now(ZoneId.of(timezoneParam));
+        } else {
+            zonedDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
+        }
 
         String formattedDate = zonedDateTime.format(dateFormat);
 
