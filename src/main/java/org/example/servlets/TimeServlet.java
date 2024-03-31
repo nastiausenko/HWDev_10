@@ -20,8 +20,8 @@ public class TimeServlet extends HttpServlet {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
         ZonedDateTime zonedDateTime;
 
-        String timezoneParam = req.getParameter("timezone").replace(" ", "+");
         if (req.getParameterMap().containsKey("timezone")) {
+            String timezoneParam = req.getParameter("timezone").replace(" ", "+");
             zonedDateTime = ZonedDateTime.now(ZoneId.of(timezoneParam));
         } else {
             zonedDateTime = ZonedDateTime.now(ZoneId.of("UTC"));
